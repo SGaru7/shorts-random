@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="utf-8" />
-  <title>Shorts Aleatorios con Sonido</title>
-<style>
+  <meta charset="utf-8">
+  <title>Shorts Aleatorios</title>
+  <style>
     html, body {
       margin: 0;
       padding: 0;
@@ -23,17 +23,21 @@
       border-radius: 20px;
       overflow: hidden;
       box-shadow: 0 0 30px rgba(0, 0, 0, 0.7);
+      background-color: black;
     }
 
     iframe {
       width: 100%;
       height: 100%;
       border: none;
+      border-radius: 20px;
     }
   </style>
 </head>
 <body>
-  <iframe id="shortFrame" src="" allowfullscreen></iframe>
+  <div class="marco">
+    <iframe id="shortFrame" src="" allowfullscreen></iframe>
+  </div>
 
   <script>
     const shorts = [
@@ -293,7 +297,7 @@
       const videoId = short.url.split("/shorts/")[1];
       const iframe = document.getElementById("shortFrame");
 
-      iframe.src = "https://www.youtube.com/embed/" + videoId + "?autoplay=1&playsinline=1";
+      iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&playsinline=1`;
 
       setTimeout(() => {
         cargarRandomShort();
@@ -304,3 +308,4 @@
   </script>
 </body>
 </html>
+
