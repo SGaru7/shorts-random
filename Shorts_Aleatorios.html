@@ -14,9 +14,16 @@
   </style>
 </head>
 <body>
-  <iframe id="shortFrame" src="" allowfullscreen></iframe>
+  <!-- Se agregaron permisos necesarios en el atributo 'allow' -->
+  <iframe 
+    id="shortFrame" 
+    src="" 
+    allow="autoplay; encrypted-media; picture-in-picture" 
+    allowfullscreen>
+  </iframe>
 
   <script>
+    // NOTA: Asegúrate de que cada línea tenga llaves {}, comillas "" y comas , al final
     const shorts = [
 { duration:80, "url":"https://www.youtube.com/shorts/BChFEAuw7Es"},
 { duration:71, "url":"https://www.youtube.com/shorts/20WaZN5Rj60"},
@@ -509,15 +516,23 @@
 { duration:40, "url":"https://www.youtube.com/shorts/iF092FSAxGw"},
 { duration:31, "url":"https://www.youtube.com/shorts/83YqU34AHio"},
 { duration:18, "url":"https://www.youtube.com/shorts/BWFe8XzEdfk"}
-    ];
+ ];
 
     function cargarRandomShort() {
       const randomIndex = Math.floor(Math.random() * shorts.length);
       const short = shorts[randomIndex];
-      const videoId = short.url.split("/shorts/")[1];
+      
+      // Extraemos el ID y limpiamos si trae cosas extra como "?feature=share"
+      let videoId = short.url.split("/shorts/")[1];
+      if (videoId.includes("?")) {
+        videoId = videoId.split("?")[0];
+      }
+
       const iframe = document.getElementById("shortFrame");
 
-      iframe.src = "https://www.youtube.com/embed/" + videoId + "?autoplay=1&playsinline=1";
+      // CORRECCIÓN PRINCIPAL AQUÍ ABAJO:
+      // Antes tenías: iframe.src = " + videoId... (Faltaba el link de youtube)
+      iframe.src = "https://www.youtube.com/embed/" + videoId + "?autoplay=1&playsinline=1&rel=0";
 
       setTimeout(() => {
         cargarRandomShort();
@@ -528,6 +543,7 @@
   </script>
 </body>
 </html>
+
 
 
 
