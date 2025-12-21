@@ -1,18 +1,55 @@
 <!DOCTYPE html>
+
 <html>
+
 <head>
+
   <meta charset="utf-8" />
-  <title>Shorts Vía Invidious</title>
+
+  <title>Shorts Aleatorios con Sonido</title>
+
   <style>
-    html, body { margin: 0; padding: 0; overflow: hidden; background: black; width: 100%; height: 100%; }
-    iframe { width: 100%; height: 100%; border: none; }
+
+    html, body {
+
+      margin: 0; padding: 0; overflow: hidden;
+
+      background: black; height: 100%; width: 100%;
+
+    }
+
+    iframe {
+
+      width: 100%; height: 100%; border: none;
+
+    }
+
   </style>
+
 </head>
+
 <body>
-  <iframe id="shortFrame" src="" allow="autoplay; fullscreen" allowfullscreen></iframe>
+
+  <!-- Se agregaron permisos necesarios en el atributo 'allow' -->
+
+  <iframe 
+
+    id="shortFrame" 
+
+    src="" 
+
+    allow="autoplay; encrypted-media; picture-in-picture" 
+
+    allowfullscreen>
+
+  </iframe>
+
+
 
   <script>
-    // TUS VIDEOS (Pon los IDs reales aquí)
+
+    // NOTA: Asegúrate de que cada línea tenga llaves {}, comillas "" y comas , al final
+
     const shorts = [
 { duration:80, "url":"https://www.youtube.com/shorts/BChFEAuw7Es"},
 { duration:71, "url":"https://www.youtube.com/shorts/20WaZN5Rj60"},
@@ -505,30 +542,59 @@
 { duration:40, "url":"https://www.youtube.com/shorts/iF092FSAxGw"},
 { duration:31, "url":"https://www.youtube.com/shorts/83YqU34AHio"},
 { duration:18, "url":"https://www.youtube.com/shorts/BWFe8XzEdfk"}
-];
+ ];
+
+
 
     function cargarRandomShort() {
+
       const randomIndex = Math.floor(Math.random() * shorts.length);
+
       const short = shorts[randomIndex];
+
       
+
+      // Extraemos el ID y limpiamos si trae cosas extra como "?feature=share"
+
+      let videoId = short.url.split("/shorts/")[1];
+
+      if (videoId.includes("?")) {
+
+        videoId = videoId.split("?")[0];
+
+      }
+
+
+
       const iframe = document.getElementById("shortFrame");
 
-      // TRUCO: Usamos 'yewtu.be' en lugar de youtube.com
-      // autoplay=1 : Autoplay
-      // mute=0 : Con sonido (Si falla, prueba mute=1)
-      // quality=dash : Intenta cargar la mejor calidad disponible
-      iframe.src = "https://yewtu.be/embed/" + short.id + "?autoplay=1&mute=0&controls=0&local=true";
+
+
+      // CORRECCIÓN PRINCIPAL AQUÍ ABAJO:
+
+      // Antes tenías: iframe.src = " + videoId... (Faltaba el link de youtube)
+
+      iframe.src = "https://www.youtube.com/embed/" + videoId + "?autoplay=1&playsinline=1&rel=0";
+
+
 
       setTimeout(() => {
+
         cargarRandomShort();
+
       }, short.duration * 1000);
+
     }
 
-    cargarRandomShort();
-  </script>
-</body>
-</html>
 
+
+    cargarRandomShort();
+
+  </script>
+
+</body>
+
+</html>
 
 
 
