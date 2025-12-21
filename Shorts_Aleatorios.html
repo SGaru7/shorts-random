@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="utf-8" />
-  <title>Shorts Aleatorios con Sonido</title>
+  <title>Shorts Aleatorios Anti-Bloqueo</title>
   <style>
     html, body {
       margin: 0; padding: 0; overflow: hidden;
@@ -10,11 +10,12 @@
     }
     iframe {
       width: 100%; height: 100%; border: none;
+      /* Esto evita que clics accidentales pausen el video */
+      pointer-events: none; 
     }
   </style>
 </head>
 <body>
-  <!-- Se agregaron permisos necesarios en el atributo 'allow' -->
   <iframe 
     id="shortFrame" 
     src="" 
@@ -23,7 +24,7 @@
   </iframe>
 
   <script>
-    // NOTA: Asegúrate de que cada línea tenga llaves {}, comillas "" y comas , al final
+    // Tu lista de shorts
     const shorts = [
 { duration:80, "url":"https://www.youtube.com/shorts/BChFEAuw7Es"},
 { duration:71, "url":"https://www.youtube.com/shorts/20WaZN5Rj60"},
@@ -516,23 +517,24 @@
 { duration:40, "url":"https://www.youtube.com/shorts/iF092FSAxGw"},
 { duration:31, "url":"https://www.youtube.com/shorts/83YqU34AHio"},
 { duration:18, "url":"https://www.youtube.com/shorts/BWFe8XzEdfk"}
- ];
+];
 
     function cargarRandomShort() {
       const randomIndex = Math.floor(Math.random() * shorts.length);
       const short = shorts[randomIndex];
       
-      // Extraemos el ID y limpiamos si trae cosas extra como "?feature=share"
+      // Limpieza del ID
       let videoId = short.url.split("/shorts/")[1];
-      if (videoId.includes("?")) {
+      if (videoId && videoId.includes("?")) {
         videoId = videoId.split("?")[0];
       }
 
       const iframe = document.getElementById("shortFrame");
 
-      // CORRECCIÓN PRINCIPAL AQUÍ ABAJO:
-      // Antes tenías: iframe.src = " + videoId... (Faltaba el link de youtube)
-      iframe.src = "https://www.youtube.com/embed/" + videoId + "?autoplay=1&playsinline=1&rel=0";
+      // --- CORRECCIONES APLICADAS ---
+      // 1. Dominio: youtube-nocookie.com (ayuda con el bloqueo)
+      // 2. Parámetros: mute=0 (intenta audio), controls=0 (sin barra), modestbranding=1 (menos logos)
+      iframe.src = "https://www.youtube-nocookie.com/embed/" + videoId + "?autoplay=1&mute=0&controls=0&modestbranding=1&rel=0&iv_load_policy=3&playsinline=1&fs=0&disablekb=1";
 
       setTimeout(() => {
         cargarRandomShort();
