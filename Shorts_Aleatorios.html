@@ -2,29 +2,17 @@
 <html>
 <head>
   <meta charset="utf-8" />
-  <title>Shorts Aleatorios Anti-Bloqueo</title>
+  <title>Shorts Vía Invidious</title>
   <style>
-    html, body {
-      margin: 0; padding: 0; overflow: hidden;
-      background: black; height: 100%; width: 100%;
-    }
-    iframe {
-      width: 100%; height: 100%; border: none;
-      /* Esto evita que clics accidentales pausen el video */
-      pointer-events: none; 
-    }
+    html, body { margin: 0; padding: 0; overflow: hidden; background: black; width: 100%; height: 100%; }
+    iframe { width: 100%; height: 100%; border: none; }
   </style>
 </head>
 <body>
-  <iframe 
-    id="shortFrame" 
-    src="" 
-    allow="autoplay; encrypted-media; picture-in-picture" 
-    allowfullscreen>
-  </iframe>
+  <iframe id="shortFrame" src="" allow="autoplay; fullscreen" allowfullscreen></iframe>
 
   <script>
-    // Tu lista de shorts
+    // TUS VIDEOS (Pon los IDs reales aquí)
     const shorts = [
 { duration:80, "url":"https://www.youtube.com/shorts/BChFEAuw7Es"},
 { duration:71, "url":"https://www.youtube.com/shorts/20WaZN5Rj60"},
@@ -523,18 +511,13 @@
       const randomIndex = Math.floor(Math.random() * shorts.length);
       const short = shorts[randomIndex];
       
-      // Limpieza del ID
-      let videoId = short.url.split("/shorts/")[1];
-      if (videoId && videoId.includes("?")) {
-        videoId = videoId.split("?")[0];
-      }
-
       const iframe = document.getElementById("shortFrame");
 
-      // --- CORRECCIONES APLICADAS ---
-      // 1. Dominio: youtube-nocookie.com (ayuda con el bloqueo)
-      // 2. Parámetros: mute=0 (intenta audio), controls=0 (sin barra), modestbranding=1 (menos logos)
-      iframe.src = "https://www.youtube-nocookie.com/embed/" + videoId + "?autoplay=1&mute=0&controls=0&modestbranding=1&rel=0&iv_load_policy=3&playsinline=1&fs=0&disablekb=1";
+      // TRUCO: Usamos 'yewtu.be' en lugar de youtube.com
+      // autoplay=1 : Autoplay
+      // mute=0 : Con sonido (Si falla, prueba mute=1)
+      // quality=dash : Intenta cargar la mejor calidad disponible
+      iframe.src = "https://yewtu.be/embed/" + short.id + "?autoplay=1&mute=0&controls=0&local=true";
 
       setTimeout(() => {
         cargarRandomShort();
